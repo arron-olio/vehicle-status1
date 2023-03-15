@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -15,7 +16,7 @@ const App = () => {
 
   const fetchVehicleData = async () => {
     if (!numberPlate) {
-      alert("Please enter a number plate");
+      Alert.alert("Please enter a number plate");
       return;
     }
 
@@ -45,13 +46,8 @@ const App = () => {
         axios.post(taxUrl, taxConfig),
       ]);
 
-      const motData = {
-        status: "test",
-        notes: "test notes",
-      };
-      const taxData = {
-        taxStatus: "Taxed",
-      };
+      const motData = motResponse.data[0];
+      const taxData = taxResponse.data;
 
       setVehicleData({
         motStatus: motData.status,
@@ -60,7 +56,7 @@ const App = () => {
       });
     } catch (error) {
       console.error(error);
-      alert("Failed to fetch vehicle data");
+      Alert.alert("Failed to fetch vehicle data");
     }
 
     setIsLoading(false);

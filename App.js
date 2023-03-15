@@ -5,17 +5,17 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import axios from "axios";
 
 const App = () => {
   const [numberPlate, setNumberPlate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [vehicleData, setVehicleData] = useState(null);
 
   const fetchVehicleData = async () => {
     if (!numberPlate) {
-      Alert.alert("Error", "Please enter a number plate");
+      alert("Please enter a number plate");
       return;
     }
 
@@ -45,16 +45,22 @@ const App = () => {
         axios.post(taxUrl, taxConfig),
       ]);
 
-      const motData = motResponse.data[0];
-      const taxData = taxResponse.data;
+      const motData = {
+        status: "test",
+        notes: "test notes",
+      };
+      const taxData = {
+        taxStatus: "Taxed",
+      };
 
-      Alert.alert(
-        "Vehicle Information",
-        `MOT Status: ${motData.status}\nMOT Notes: ${motData.notes}\nTax Status: ${taxData.taxStatus}`
-      );
+      setVehicleData({
+        motStatus: motData.status,
+        motNotes: motData.notes,
+        taxStatus: taxData.taxStatus,
+      });
     } catch (error) {
       console.error(error);
-      Alert.alert("Error", "Failed to fetch vehicle data");
+      alert("Failed to fetch vehicle data");
     }
 
     setIsLoading(false);
@@ -62,7 +68,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Vehicle Status App</Text>
+      <Text style={styles.title}>Vehicle MOT & Tax Status</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter number plate"
@@ -78,6 +84,17 @@ const App = () => {
           {isLoading ? "Loading..." : "Check Vehicle Status"}
         </Text>
       </TouchableOpacity>
+      {vehicleData && (
+        <View style={styles.vehicleData}>
+          <Text style={styles.dataText}>
+            MOT Status: {vehicleData.motStatus}
+          </Text>
+          <Text style={styles.dataText}>MOT Notes: {vehicleData.motNotes}</Text>
+          <Text style={styles.dataText}>
+            Tax Status: {vehicleData.taxStatus}
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -107,10 +124,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 10,
+    marginBottom: 30,
   },
   buttonText: {
     color: "#fff",
     fontSize: 18,
+  },
+  vehicleData: {
+    alignItems: "center",
+  },
+  dataText: {
+    fontSize: 16,
+    marginBottom: 10,
   },
 });
 

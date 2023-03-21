@@ -39,7 +39,9 @@ const styles = StyleSheet.create({
   vehicleData: {
     width: "80%",
     maxWidth: "80%",
-    padding: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+    paddingHorizontal: 20,
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#6200ee",

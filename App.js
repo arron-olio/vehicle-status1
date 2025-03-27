@@ -31,7 +31,7 @@ const App = () => {
       setIsLoading(true);
 
       try {
-        const apiKey = "61BT22ukpJ9vHkYcf3yWi3dFsjsvwcRB1aotzqMT";
+        const apiKey = "<your api key here>";
 
         const data = JSON.stringify({ registrationNumber: numberPlate });
         const config = {
